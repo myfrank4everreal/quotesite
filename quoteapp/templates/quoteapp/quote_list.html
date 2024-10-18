@@ -1,0 +1,18 @@
+
+
+
+
+
+{% block content%}
+
+<h1>Quotes</h1>
+<ul>
+    {% for quote in quotes %}
+    <li>
+        <a href="{% url 'quote_detail' quote.id %}">{{ quote.text }} - {{ quote.author }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

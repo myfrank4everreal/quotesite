@@ -1,0 +1,17 @@
+
+
+{% block content %}
+
+<h1>{{ quote.text }}</h1>
+<p><strong>Author:</strong> {{ quote.author }}</p>
+<p><strong>Category:</strong> {{ quote.category }}</p>
+{% if user.is_authenticated %}
+    {% if quote in user.favoritequote_set.all %}
+        <a href="{% url 'remove_favorite' quote.id %}">Remove from Favorites</a>
+    {% else %}
+        <a href="{% url 'add_favorite' quote.id %}">Add to Favorites</a>
+    {% endif %}
+{% endif %}
+
+<a href="{% url 'quote_list' %}">Back to Quotes</a>
+{% endblock %}
