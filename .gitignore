@@ -268,3 +268,20 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django
+#  for react ignorables
+# .gitignore
+
+# Ignore node_modules folder
+node_modules/
+
+# Ignore build folder
+build/
+
+# Ignore logs and environment files
+npm-debug.log*
+.env
+.DS_Store
+
+# Ignore macOS system files
+.AppleDouble
+.LSOverride
