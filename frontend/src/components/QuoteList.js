@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const QuotesList = () => {
+const QuoteList = () => {
   const [quotes, setQuotes] = useState([]);
 
   useEffect(() => {
@@ -29,4 +29,4 @@ const QuotesList = () => {
   );
 };
 
-export default QuotesList;
+export default QuoteList;

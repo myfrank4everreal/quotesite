@@ -1,17 +1,21 @@
-import logo from './logo.svg';
+import { Routes, Route } from 'react-router-dom';
+import React from 'react' 
+
 import './App.css';
-import QuotesList from './components/QuotesList';
 
-function App() {
+import Home from './container/Home';
+import Login from './components/Login';
+
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-       <h1> Quotes</h1>
-      </header>
-
-      < QuotesList /> {/* render the quotelist  */}
-    </div>
-  );
+   
+      <Routes>
+        <Route path = "/*" element={<Home />} />
+        <Route path = "login" element={<Login />}></Route>
+      </Routes>
+    
+  )
 }
 
-export default App;
+export default App
