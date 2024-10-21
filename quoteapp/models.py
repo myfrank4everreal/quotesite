@@ -2,14 +2,49 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# Create your models here.
+
+# ***************Signals setup***********************
+#  this code allows automatic role management 
+# in your Django application, ensuring that when a user is created, 
+# they are automatically added to the "Regular User" group. You can
+# then define group-specific permissions using Django’s permission 
+# system, so users in this group only have access to certain features 
+# (like viewing and posting quotes, but not admin actions 
+
+from django.contrib.auth.models import Group, Permission
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.contenttypes.models import ContentType
+
+
+
+@receiver(post_save, sender=User)
+def assign_user_role(sender, instance, created, **kwargs):
+    if created:
+        group = Group.objects.get(name='Regular User')  # default group
+        instance.groups.add(group)
+
+# leets ensure that the user  has right permissions form thire group
+# this is what does the magic of assigning specific roles to user fro the
+# admin pannel.
+
+        if group.name == 'Author':
+            content_type = ContentType.objects.get_for_model(Quote)
+            permissions = Permission.objects.filter(content_type=content_type)
+            instance.user_permissions.add(*permissions)
+
+
+
+# ***********************************
+
+
 
 
 
 class Quote(models.Model):
     text = models.TextField()
     author = models.CharField(max_length=200)
-    category = models.CharField(max_length=200)
+    category = models.CharField(max_length=200, blank=True, null=True)
     submitted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null = True, blank=True)
 
 

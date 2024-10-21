@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
 from dotenv import load_dotenv
+
+from datetime import timedelta
 
 
 load_dotenv()
@@ -53,8 +54,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
 
 ]
+
+
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware', #serve static files in production
@@ -72,6 +76,24 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", #the react app url
 ]
+
+
+
+# jWT setup for API authentiction
+INSTALLED_APPS += ['rest_framework_simplejwt.token_blacklist']
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+# JWT settings (optional)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
 
 
 ROOT_URLCONF = 'quotesite.urls'

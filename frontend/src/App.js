@@ -5,6 +5,7 @@ import './App.css';
 
 import Home from './container/Home';
 import Login from './components/Login';
+import Register from './components/Register';
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
       <Routes>
         <Route path = "/*" element={<Home />} />
         <Route path = "login" element={<Login />}></Route>
+        <Route path = "register" element={<Register />}></Route>
       </Routes>
     
   )
