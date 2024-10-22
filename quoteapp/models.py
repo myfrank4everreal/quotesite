@@ -24,9 +24,6 @@ def assign_user_role(sender, instance, created, **kwargs):
         group = Group.objects.get(name='Regular User')  # default group
         instance.groups.add(group)
 
-# leets ensure that the user  has right permissions form thire group
-# this is what does the magic of assigning specific roles to user fro the
-# admin pannel.
 
         if group.name == 'Author':
             content_type = ContentType.objects.get_for_model(Quote)
@@ -40,13 +37,14 @@ def assign_user_role(sender, instance, created, **kwargs):
 
 
 
-
 class Quote(models.Model):
     text = models.TextField()
     author = models.CharField(max_length=200)
     category = models.CharField(max_length=200, blank=True, null=True)
     submitted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null = True, blank=True)
 
+    def __str__(self):
+        return f"{self.text}"  # Returning the first 50 characters of the quote text
 
 class FavouriteQuote(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)

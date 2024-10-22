@@ -73,6 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# this will allow request from localhost:3000
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", #the react app url
 ]
