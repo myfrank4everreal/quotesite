@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
 
 
+
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware', #serve static files in production
     'corsheaders.middleware.CorsMiddleware',

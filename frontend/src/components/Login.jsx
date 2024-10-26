@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+// import jwtDecode from 'jwt-decode';  // Correct default import
 
 
 
 const Login = () => {
-    // more like we are declaring a function and variable at 
-    // time for an array the variable stores the data
-    // the function execute the effect for that to happen.
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -14,13 +13,17 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post('http://localhosot:8000/api/token/',{
-            username,
-            password
-        }) 
+        axios.post('http://localhost:8000/api/token/',{username, password})
+        
         .then(response => {
-            localStorage.setItem('access', response.data.access);
-            localStorage.setItem('refresh', response.data.refresh);
+            const {access } = response.data;
+            try{
+                localStorage.setItem('accessToken', access);
+                localStorage.setItem('refresh', response.data.refresh);
+            }catch(e){
+                console.warn('local storage error', e);
+            }
+            
             window.location.href = '/'; // redirect to home
         })
         .catch(error => {
@@ -34,14 +37,14 @@ const Login = () => {
         type="text" 
         value={username} 
         onChange={(e) => setUsername(e.target.value)} 
-        placeholder="Username" 
+        placeholder="Username1" 
         required 
     />
     <input 
         type="password" 
         value={password} 
         onChange={(e) => setPassword(e.target.value)} 
-        placeholder="Password" 
+        placeholder="Password1" 
         required 
     />
     <button type="submit">Login</button>
