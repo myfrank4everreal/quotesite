@@ -6,9 +6,33 @@ from .serializers import QuoteSerializer
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import Group
+
+
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+class MyLoginView(TokenObtainPairView):
+    pass
+
+
 # Serves the React app's index.html file for the frontend
 class FrontendAppView(TemplateView):
     template_name = 'index.html'
+
+class IsAuthorOrAdmin(permissions.BasePermission):
+
+   
+    # Custom permission to only allow authors or admins to 
+    # modify quotes.
+    
+    def has_permission(self, request, view):
+        if request.user.groups.filter(name='Admin').exists():
+            return True
+        if request.user.groups.filter(name='Author').exists():
+            return request.method in ['POST', 'PUT', 'DELETE']
+        return request.method in ['GET']
+    
+
 
 # API to get and create quotes
 class QuoteListCreateAPIView(generics.ListCreateAPIView):
@@ -16,10 +40,22 @@ class QuoteListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = QuoteSerializer
 
 
+    permission_classes = [IsAuthenticated, IsAuthorOrAdmin]
+    # take care of the permissions for what who can view 
+    # def get_permissions(self):
+    #     if self.request.method == 'POST':
+    #         return [IsAuthenticated(), IsAdminUser()] # makes sure is authenticated and its an admin
+    #     return [IsAuthenticated()] # every authenticated user can view quotes
+    
+
+
 # API to retrieve, update, and delete individual quotes
 class QuoteDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quote.objects.all()
     serializer_class = QuoteSerializer
+
+    permission_classes = [IsAuthenticated, IsAuthorOrAdmin] #apply the custom permission
+    
 
 
 # # this is the update function to take of delegating roles to users
