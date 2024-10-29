@@ -5,7 +5,8 @@ const QuoteList = () => {
   const [quotes, setQuotes] = useState([]); // Initialize quotes as an empty array
 
   useEffect(() => {
-    axios.post('http://localhost:8000/api/quotes/') // Replace with your API endpoint
+    axios.get('http://localhost:8000/api/quotes/') 
+    // Replace with your API endpoint
       .then((response) => {
         setQuotes(response.data); // Set the fetched quotes to the state
       })

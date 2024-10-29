@@ -24,7 +24,7 @@ class IsAuthorOrAdmin(permissions.BasePermission):
 class QuoteListCreateAPIView(generics.ListCreateAPIView):
     queryset = Quote.objects.all()
     serializer_class = QuoteSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrAdmin]  # Apply the custom permission
+    # permission_classes = [IsAuthenticated, IsAuthorOrAdmin]  # Apply the custom permission
 
 
 # API view to retrieve, update, and delete a quote
